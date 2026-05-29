@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 import { createAuthSupabaseClient } from "@/app/lib/supabase-auth";
 import { buildSsoRedirectUrl, SSO_EXCHANGE_ENDPOINT } from "@/app/lib/sso";
 import { persistSarayaAccount, readSarayaAccount } from "@/app/lib/saraya-account";
-import type { RealtimeChannel } from "@supabase/supabase-js";
 
 function safeRandomId(): string {
   if (typeof crypto !== "undefined" && typeof (crypto as any).randomUUID === "function") {
@@ -49,7 +48,7 @@ export function SsoBootstrapper({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     let cancelled = false;
-    let realtimeChannel: RealtimeChannel | null = null;
+    let realtimeChannel: ReturnType<typeof supabase.channel> | null = null;
 
     const hydrateSarayaAccount = async (
       accessToken?: string,

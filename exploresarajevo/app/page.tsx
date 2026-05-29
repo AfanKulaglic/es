@@ -60,8 +60,8 @@ export default async function HomePage() {
     }));
 
   const combinedPremium = [...premiumBusinesses, ...premiumAttractions];
-  const premiumBizIds = new Set(premiumBusinesses.map((b: any) => String(b.id)));
-  const premiumAttrSlugs = new Set(premiumAttractions.map((a: any) => String(a.slug)));
+  const premiumBizIds = new Set<string>(premiumBusinesses.map((b: any) => String(b.id)));
+  const premiumAttrSlugs = new Set<string>(premiumAttractions.map((a: any) => String(a.slug)));
 
   // ── Step 3: Highlighted places rail ──────────────────────────────────────
   // Business: sections[].is_highlight === true (not premium)
@@ -87,8 +87,8 @@ export default async function HomePage() {
     }));
 
   const combinedHighlights = [...highlightedBusinesses, ...highlightedAttractions];
-  const highlightedBizIds = new Set(highlightedBusinesses.map((b: any) => String(b.id)));
-  const highlightedAttrSlugs = new Set(highlightedAttractions.map((a: any) => String(a.slug)));
+  const highlightedBizIds = new Set<string>(highlightedBusinesses.map((b: any) => String(b.id)));
+  const highlightedAttrSlugs = new Set<string>(highlightedAttractions.map((a: any) => String(a.slug)));
 
   // ── Step 4: Featured businesses ───────────────────────────────────────────
   // Businesses in any section, NOT already premium or highlighted
@@ -97,7 +97,7 @@ export default async function HomePage() {
     if (highlightedBizIds.has(String(b.id))) return false;
     return (b.sections || []).length > 0;
   });
-  const featuredBizIds = new Set(featuredBusinesses.map((b: any) => String(b.id)));
+  const featuredBizIds = new Set<string>(featuredBusinesses.map((b: any) => String(b.id)));
 
   // ── Step 5: Featured attractions ─────────────────────────────────────────
   // featuredLocation === true, NOT already shown in premium or highlighted
@@ -108,9 +108,9 @@ export default async function HomePage() {
 
   // ── Step 6: Directory (everything else) ──────────────────────────────────
   const usedIds = new Set<string>([
-    ...premiumBizIds,
-    ...highlightedBizIds,
-    ...featuredBizIds,
+    ...Array.from(premiumBizIds),
+    ...Array.from(highlightedBizIds),
+    ...Array.from(featuredBizIds),
   ]);
 
   const allBusinesses = businesses.filter(
