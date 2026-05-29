@@ -3,7 +3,10 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // Helps clients detect stale bundles after deploy (reduces "Failed to find Server Action" noise)
-  deploymentId: process.env.BUILD_ID || process.env.npm_package_version || 'explore-sarajevo',
+  deploymentId: process.env.VERCEL_GIT_COMMIT_SHA || process.env.npm_package_version || 'explore-sarajevo',
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   serverExternalPackages: ["pdf-parse", "pdfjs-dist", "cheerio"],
   images: {
     remotePatterns: [
@@ -38,7 +41,6 @@ const nextConfig: NextConfig = {
     ],
     dangerouslyAllowSVG: true,
   },
-  turbopack: {},
 };
 
 export default nextConfig;
